@@ -42,7 +42,7 @@ def get_groupyModels(df, make):
 
 
 def price_vs_km(df, make, model, year):
-    print(make, model, year)
+    #print(make, model, year)
     if year is None:
         data = df[{'car_price', 'car_kilometer', 'car_year'}].loc[(df['car_make'] == f'{make}') & (df['car_model'] == f'{model}')]
         return data
