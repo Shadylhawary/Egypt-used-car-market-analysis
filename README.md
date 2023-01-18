@@ -18,7 +18,10 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](https://raw.githubusercontent.com/Shadylhawary/Egypt-used-car-market-analysis/master/img/giphy.gif)
+<p align="center>
+  <a href="http://156.195.221.163:5000/"><img src="https://raw.githubusercontent.com/Shadylhawary/Egypt-used-car-market-analysis/master/img/giphy.gif" alt="GIF" width="200"></a>
+
+</p>
 
 ## Key Features
 
@@ -63,6 +66,6 @@ Plotly Dash Analytics application framework licensed under the MIT license.
 
 ---
 
-> [Interactive Dashboard](http://192.168.1.28:5000/) &nbsp;&middot;&nbsp;
+> [Interactive Dashboard](http://156.195.221.163:5000/) &nbsp;&middot;&nbsp;
 > GitHub [@Shadylhawary](https://github.com/Shadylhawary) &nbsp;&middot;&nbsp;
 > LinkedIn [@Shadylhawary](https://www.linkedin.com/in/shadylhawary/)
