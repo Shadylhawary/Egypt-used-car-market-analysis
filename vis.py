@@ -81,8 +81,9 @@ app.layout = dbc.Container([
 
         html.Content("Last Update: 15/01/2023",
                      className='text-info text-right'),
+        html.Content("Author: Shady El Hawary", className='text-info text-left'),
         html.H1("Egypt Used Cars' Market Analysis",
-                className='text-center mt-4 font-weight-bolder text-danger'),
+                className='text-center mt-2 font-weight-bolder text-danger'),
         html.H5(f"Our dataset contains {dataset_size} ad of the available online ads",
                 className='text-center text-secondary mb-5')
 
