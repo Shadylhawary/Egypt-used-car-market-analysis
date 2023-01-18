@@ -18,10 +18,8 @@
   <a href="#license">License</a>
 </p>
 
-<p align="center>
-  <a href="http://156.195.221.163:5000/"><img src="https://raw.githubusercontent.com/Shadylhawary/Egypt-used-car-market-analysis/master/img/giphy.gif" alt="GIF" width="200"></a>
 
-</p>
+![screenshot](https://raw.githubusercontent.com/Shadylhawary/Egypt-used-car-market-analysis/master/img/giphy.gif)
 
 ## Key Features
 
