@@ -1,58 +1,81 @@
 import pandas as pd
-# import plotly.express as px
+from datetime import datetime
 
-
-""" df = pd.read_csv("Hatalaee.csv")
-NaN_values_count = df.isna().sum()
-df.dropna(inplace=True)
-df.drop(columns=['car_img', 'car_link'], inplace=True)
-
-
-df['car_year'] = [int(i) for i in df.car_year]
-df['car_kilometer'] = [int(i) for i in df.car_kilometer]
-df['car_price'] = [int(i) for i in df.car_price] 
-
-
-Car_makes_count = df.groupby('car_make')['car_make'].count()  """
 
 df = pd.read_csv("latest.csv")
 
 
 def get_makes(df):
-    """
-    :return: all unique makes of our dataset
+    """Returns all unique car makes.
+
+    Args:
+        df (dataframe): dataframe
+
+    Returns:
+        dataframe: unique car makes dataframe
     """
     return df['car_make'].unique()
 
 
 def get_model(df, make):
-    """
-    :param make: car make
-    :return: return all unique models for this car make
+    """function used to get all the available models for a certain car make
+
+    Args:
+        df (dataframe): dataset
+        make (str): a certain car make
+
+    Returns:
+        list[str]: all car models belongs to the specified car make
     """
     return df['car_model'].loc[df['car_make'] == make].unique().tolist()
 
 
 def get_groupyModels(df, make):
-    """
-    :param make: car make
-    :return: return a unique groups of car models for this existing car make.
-    """
+    """function used to get the [count-models] for a certain car make
+
+    Args:
+        df (dataframe): dataset
+        make (str): a certain car make
+
+    Returns:
+        int: Count of all car models belongs to the specified car make
+    """    
     return df['car_model'].groupby(df['car_model'].loc[(df['car_make'] == f'{make}')]).count()
 
 
 def price_vs_km(df, make, model, year):
-    #print(make, model, year)
+    """function used to generate the required data for Fig1.
+
+    Args:
+        df (dataframe): dataset
+        make (str): the desired car make
+        model (str): the desired car model
+        year (int): the desired car year
+
+    Returns:
+        dataframe: a dataframe holds [price, kilometers, year] for a certain car model.
+    """    
     if year is None:
-        data = df[{'car_price', 'car_kilometer', 'car_year'}].loc[(df['car_make'] == f'{make}') & (df['car_model'] == f'{model}')]
+        data = df[{'car_price', 'car_kilometer', 'car_year'}].loc[(
+            df['car_make'] == f'{make}') & (df['car_model'] == f'{model}')]
         return data
     else:
-        data = df[{'car_price', 'car_kilometer', 'car_year'}].loc[(df['car_make'] == f'{make}') & (df['car_model'] == f'{model}') & (df['car_year'] == year)]
+        data = df[{'car_price', 'car_kilometer', 'car_year'}].loc[(df['car_make'] == f'{make}') & (
+            df['car_model'] == f'{model}') & (df['car_year'] == year)]
         return data
-    
 
 
 def price_vs_year(df, make, model):
+    """function used to generate the required data for Fig2.
+
+    Args:
+        df (dataframe): dataset
+        make (str): the desired car make
+        model (str): the desired car model
+
+    Returns:
+        dataframe: a dataframe holds [price, year] for a certain car model.
+    """    
     return df[{'car_price', 'car_year'}].loc[(df['car_make'] == f'{make}') & (df['car_model'] == f'{model}')]
 
 
@@ -87,6 +110,15 @@ def get_sales_values_beta(df):
 
 
 def get_sales_value_model(df, make):
+    """_summary_
+
+    Args:
+        df (_type_): _description_
+        make (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
     carModel_sum = pd.DataFrame(columns=['Car Model', 'SUM'])
     carModels = get_model(df, make)
     for carModel in carModels:
@@ -97,6 +129,15 @@ def get_sales_value_model(df, make):
 
 
 def get_sum_of_ads(df, carmake):
+    """function used to generate the data used to plot Fig3
+
+    Args:
+        df (dataframe): dataset
+        carmake (str): car make
+
+    Returns:
+        pandas dataframe: dataframe holds [car model - number of ads]
+    """    
     carModel_sum_of_ads = pd.DataFrame(columns=['Car Model', 'Number of Ads'])
     unique_Carmodels = df['car_model'].loc[df['car_make']
                                            == f'{carmake}'].unique().tolist()
@@ -109,11 +150,33 @@ def get_sum_of_ads(df, carmake):
 
 
 def get_car_year(df, make, model):
+    """function used to return all the available years for a certain car model
+
+    Args:
+        df (dataframe): dataset
+        make (str): the desired car make
+        model (str): the desired car model
+
+    Returns:
+        list: A list of all available car years.
+    """    
     unique_years = df['car_year'].loc[(df['car_make'] == f'{make}') & (
         df['car_model'] == f'{model}')].unique().tolist()
     return unique_years
 
 
-def get_car_info(df, make, model):
+def get_car_info(df, model):
+    """function to return car model count
+
+    Args:
+        df (dataframe): dataset
+        model (str): car model
+    """    
     model_count = len(df.loc[df['car_model'] == model])
     pass
+
+
+def log_ip(ip):
+    logfile = open('log.txt', 'a')
+    logfile.write(f"[IP: {ip} ]  --- [DATE: {datetime.now()} ] \n")
+    logfile.close()
