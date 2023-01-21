@@ -8,7 +8,9 @@ import plotly.graph_objects as go
 import dash_bootstrap_components as dbc
 from dash.dependencies import Output, Input, State
 from dash import Dash, html, dcc
+from flask import request
 import queries
+import dummy_text
 
 # --------------------------------------------------
 # --------------Data wrangling Section--------------
@@ -34,6 +36,14 @@ Car_makes_count = df.groupby('car_make')['car_make'].count()
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], meta_tags=[{'name': 'viewport',
                                                                               'content': 'width=device-width, initial-scale=1'}])
+
+
+# Logging user IP
+def log_ip():
+    user_ip = request.remote_addr
+    print("This is my ip address", user_ip)
+    return queries.log_ip(user_ip)
+
 
 # --------------------------------------------------
 # --------------Figures Section---------------------
@@ -79,13 +89,12 @@ def number_of_ads_carmodel(df):
 app.layout = dbc.Container([
     dbc.Row([
 
-        html.Content("Last Update: 15/01/2023",
-                     className='text-info text-right'),
-        html.Content("Author: Shady El Hawary", className='text-info text-left'),
+        html.Content("Last Update: 21/01/2023 - Version: 0.5.3 - Contact: shadylhawary@gmail.com ",
+                     className='text-info text-end fw-light', id='dummy'),
         html.H1("Egypt Used Cars' Market Analysis",
-                className='text-center mt-2 font-weight-bolder text-danger'),
+                className='text-center mt-2 font-weight-bolder text-danger fst-italic'),
         html.H5(f"Our dataset contains {dataset_size} ad of the available online ads",
-                className='text-center text-secondary mb-5')
+                className='text-center text-secondary mb-5'),
 
     ]),
 
@@ -120,16 +129,42 @@ app.layout = dbc.Container([
 
     html.Br(),
     dbc.Row([
+        html.Div([html.H5("\U0001F56F  Depreciation X Kilometrage", className='fw-bold fst-italic'),
+                  html.Header(f'{dummy_text.dep_kilo}', className='px-5 lead')]),
+        html.P(f"{dummy_text.note1}", className='text-center text-muted'),
         dcc.Graph(id='line_kmvsprice'),
+        html.Div([html.H5("\U0001F56F  Depreciation X Time", className='fw-bold fst-italic'),
+                  html.Header(f'{dummy_text.dep_year}', className='px-5 lead'),
+                  html.P(f"{dummy_text.note2}", className='text-center text-muted')]),
         dcc.Graph(id='line_yearvsprice')
     ]),
 
 
     html.Br(),
+    html.Div(html.H5("\U0001F56F  Number of Ads Per Model",
+             className='fw-bold fst-italic', id='adnum')),
     dbc.Row([
         dcc.Graph(id='models_num_ads')
     ]),
 
+    html.Div([html.H4("\U00003030   \U00003030   \U00003030", className='text-center'),
+              html.H4('FAQs', className='fw-bold text-center')]),
+    html.Div([html.H6(f'{dummy_text.Q1}', className='fw-bold fst-italic'),
+              html.P(f'{dummy_text.Ans1}', className='text-secondary px-5'),
+              html.H6(f'{dummy_text.Q2}', className='fw-bold fst-italic'),
+              html.P(f'{dummy_text.Ans2}', className='text-secondary px-5'),
+              html.H6(f'{dummy_text.Q3}', className='fw-bold fst-italic'),
+              html.P(f'{dummy_text.Ans3}', className='text-secondary px-5')]),
+    dbc.Row([
+        html.Hr(style={'borderWidth': "0.3vh",
+                "width": "6", "color": "#190404"})
+    ]),
+
+    dbc.Row([
+        html.H3(f"SOON",
+                className='text-center text-secondary mb-4 mt-2')
+
+    ]),
 
 ])
 
@@ -138,9 +173,9 @@ app.layout = dbc.Container([
 # --------------Callback Section---------------------
 # --------------------------------------------------
 
-##      DROPDOWN SECTION
+# DROPDOWN SECTION
 
-#update car model dropdown menu
+# update car model dropdown menu
 @app.callback(
     Output('car_models', 'options'),
     Input('car_make_dropdown', 'value')
@@ -148,7 +183,9 @@ app.layout = dbc.Container([
 def update_dropdown(input_value):
     return queries.get_model(df, input_value)
 
-#update car year dropdown menu
+# update car year dropdown menu
+
+
 @app.callback(
     Output('car_years', 'options'),
     Input('car_make_dropdown', 'value'),
@@ -158,7 +195,7 @@ def update_dropdown(make, model):
     return queries.get_car_year(df, make, model)
 
 
-##      FIGURE UPDATE SECTION
+# FIGURE UPDATE SECTION
 
 
 # Callback for figure1 > Price VS Km
@@ -173,7 +210,7 @@ def update_figure1(make, model, year):
         data = queries.price_vs_km(df, make, model, year)
         fig = go.Figure()
         fig = px.scatter(data_frame=data, x=data.car_kilometer,
-                        y=data.car_price, trendline='ols', trendline_scope='overall', labels={"car_kilometer": "Kilomitrage(KM)", "car_price": "Price(EGP)", "car_year": "Car Year"}, color='car_year')
+                         y=data.car_price, trendline='ols', trendline_scope='overall', labels={"car_kilometer": "Kilometrage(KM)", "car_price": "Price(EGP)", "car_year": "Car Year"}, color='car_year')
 
         # print(px.get_trendline_results(fig))
         return fig
@@ -181,7 +218,7 @@ def update_figure1(make, model, year):
         data = queries.price_vs_km(df, make, model, year)
         fig = go.Figure()
         fig = px.scatter(data_frame=data, x=data.car_kilometer,
-                        y=data.car_price, trendline='ols', trendline_scope='overall', labels={"car_kilometer": "Kilomitrage(KM)", "car_price": "Price(EGP)"})
+                         y=data.car_price, trendline='ols', trendline_scope='overall', labels={"car_kilometer": "Kilomitrage(KM)", "car_price": "Price(EGP)"})
 
         # print(px.get_trendline_results(fig))
         return fig
@@ -213,6 +250,7 @@ def model_num_ads(make):
                       'categoryorder': 'total descending'})
     return fig
 
+
 # update the car status
 
 
@@ -224,7 +262,8 @@ def model_num_ads(make):
 def car_info(make, model):
     pass
 
-##          SHOW&HIDE SECTION
+
+# SHOW&HIDE SECTION
 
 
 @app.callback(
@@ -264,7 +303,7 @@ def show_hide_element(carmodel, carmake):
 
 
 @app.callback(
-    Output(component_id='test', component_property='style'),
+    Output(component_id='adnum', component_property='style'),
     Input(component_id='car_models', component_property='value'),
     Input(component_id='car_make_dropdown', component_property='value'))
 def show_hide_element(carmodel, carmake):
@@ -273,6 +312,12 @@ def show_hide_element(carmodel, carmake):
         return {'display': 'none'}
     else:
         return {'display': 'block'}
+
+
+#   Dummy callback to fetch user IP
+@app.callback(Output('dummy', 'style'), Input('dummy', 'style'))
+def fetch_ip(dummy):
+    return log_ip()
 
 
 if __name__ == "__main__":
