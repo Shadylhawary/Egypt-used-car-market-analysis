@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="http://156.195.104.86:5000/"><img src="https://raw.githubusercontent.com/Shadylhawary/Egypt-used-car-market-analysis/master/img/logo.png" alt="Egypt" width="200"></a>
+  <a href="http://102.40.24.217:5000/"><img src="https://raw.githubusercontent.com/Shadylhawary/Egypt-used-car-market-analysis/master/img/logo.png" alt="Egypt" width="200"></a>
   <br>
   Egypt Used Car Market Analysis
   <br>
@@ -64,6 +64,6 @@ Plotly Dash Analytics application framework licensed under the MIT license.
 
 ---
 
-> [Interactive Dashboard](http://156.195.104.86:5000/) &nbsp;&middot;&nbsp;
+> [Interactive Dashboard](http://102.40.24.217:5000/) &nbsp;&middot;&nbsp;
 > GitHub [@Shadylhawary](https://github.com/Shadylhawary) &nbsp;&middot;&nbsp;
 > LinkedIn [@Shadylhawary](https://www.linkedin.com/in/shadylhawary/)
